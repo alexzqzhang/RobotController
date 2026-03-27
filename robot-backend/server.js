@@ -12,6 +12,8 @@ const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
 
 const BAUD_RATE = 9600;
+let portInstance = null; // This will hold the SerialPort object
+let connectionStatus = { connected: false, port: null, error: null };
 
 const COMMANDS = {
   forward:  "F",
@@ -21,8 +23,7 @@ const COMMANDS = {
   stop:     "S",
 };
 
-let serialPort = null;
-let connectionStatus = { connected: false, port: null, error: null };
+let serialPort = "COM5";
 let autoStopTimer = null;
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -33,33 +34,33 @@ function broadcast(payload) {
     if (client.readyState === 1) client.send(msg);
   });
 }
-
 function sendSerial(cmd) {
   return new Promise((resolve, reject) => {
-    if (!serialPort || !serialPort.isOpen) return reject(new Error("Arduino not connected"));
-    serialPort.write(cmd, err => err ? reject(err) : resolve());
+    // Use portInstance instead of serialPort
+    if (!portInstance || !portInstance.isOpen) return reject(new Error("Arduino not connected"));
+    portInstance.write(cmd, err => err ? reject(err) : resolve());
   });
 }
 
 async function connectSerial(portPath) {
-  if (serialPort && serialPort.isOpen) {
-    await new Promise(r => serialPort.close(r));
+  // Close existing connection if it exists
+  if (portInstance && portInstance.isOpen) {
+    await new Promise(r => portInstance.close(r));
   }
 
-  serialPort = new SerialPort({ path: portPath, baudRate: BAUD_RATE });
+  // Create the new instance
+  portInstance = new SerialPort({ path: portPath, baudRate: BAUD_RATE });
 
-  serialPort.on("error", err => {
+  portInstance.on("error", err => {
     connectionStatus = { connected: false, port: null, error: err.message };
-    serialPort = null;
+    portInstance = null;
     broadcast({ type: "status", ...connectionStatus });
   });
 
-  // Forward any data coming FROM the Arduino to all WS clients
-  serialPort.on("data", data => {
+  portInstance.on("data", data => {
     broadcast({ type: "serial_data", data: data.toString() });
   });
 
-  // Wait for Arduino reset
   await new Promise(r => setTimeout(r, 2000));
 
   connectionStatus = { connected: true, port: portPath, error: null };
