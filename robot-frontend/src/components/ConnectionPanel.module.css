@@ -1,0 +1,92 @@
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.title {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  letter-spacing: 0.2em;
+  border-left: 2px solid var(--cyan);
+  padding-left: 8px;
+}
+
+.badges { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.badge {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid;
+  letter-spacing: 0.08em;
+  transition: all 0.3s;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.select, .input {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  padding: 9px 12px;
+  border-radius: var(--radius);
+  flex: 1;
+  min-width: 150px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.select:focus, .input:focus { border-color: var(--cyan); }
+.select:disabled, .input:disabled { opacity: 0.4; }
+
+.scanBtn, .connectBtn {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  padding: 9px 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border2);
+  background: var(--surface2);
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.scanBtn:hover { border-color: var(--cyan); color: var(--cyan); }
+.scanBtn:disabled { opacity: 0.35; pointer-events: none; }
+
+.primary { border-color: var(--cyan); color: var(--cyan); }
+.primary:hover { background: #00f5d415; box-shadow: var(--glow-cyan); }
+.danger  { border-color: var(--red);  color: var(--red); }
+.danger:hover  { background: #ff3d5a15; box-shadow: var(--glow-red); }
+.connectBtn:disabled { opacity: 0.35; pointer-events: none; }
+
+.error {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--red);
+  margin-top: 10px;
+  padding: 6px 10px;
+  border: 1px solid #ff3d5a40;
+  border-radius: var(--radius);
+  background: #ff3d5a10;
+}

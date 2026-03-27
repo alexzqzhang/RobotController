@@ -1,0 +1,118 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* ── D-Pad container (for overlay positioning) ── */
+.dpadContainer {
+  position: relative;
+}
+
+.dpad {
+  display: grid;
+  grid-template-areas:
+    ". up ."
+    "left stop right"
+    ". down .";
+  grid-template-columns: 88px 88px 88px;
+  grid-template-rows: 88px 88px 88px;
+  gap: 6px;
+}
+
+/* ── D-pad buttons ── */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  border-radius: 12px;
+  border: 1px solid var(--border2);
+  background: var(--surface2);
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.1s;
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+}
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--cyan);
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+.btn:hover  { border-color: var(--cyan); box-shadow: 0 0 16px #00f5d440; }
+.btn:hover::after { opacity: 0.07; }
+.btn.pressed { transform: scale(0.91); border-color: var(--cyan); box-shadow: 0 0 24px #00f5d460; }
+.btn.pressed::after { opacity: 0.15; }
+
+.up    { grid-area: up; }
+.left  { grid-area: left; }
+.right { grid-area: right; }
+.down  { grid-area: down; }
+
+.stop {
+  grid-area: stop;
+  border-color: #ff3d5a80;
+  color: var(--red);
+  font-size: 1.4rem;
+}
+.stop::after { background: var(--red); }
+.stop:hover  { border-color: var(--red); box-shadow: var(--glow-red); }
+.stop.pressed { border-color: var(--red); box-shadow: var(--glow-red); }
+
+/* ── Locked overlay ── */
+.locked .dpad { filter: brightness(0.45); }
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(1px);
+  border-radius: 6px;
+  cursor: not-allowed;
+}
+
+.overlayText {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+  text-align: center;
+  padding: 8px 14px;
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  background: var(--surface);
+}
+
+/* ── Keyboard hint ── */
+.hint {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.key {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  padding: 2px 6px;
+  border-radius: 3px;
+  border: 1px solid var(--border2);
+  background: var(--surface2);
+  color: var(--text);
+}
+
+.sep {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  margin: 0 2px;
+}
