@@ -8,15 +8,20 @@ The backend simulates robot behavior while the frontend provides a real-time con
 # Steps to Run:
 
 cd robot-backend
+
 npm install
+
 npm run mock
 
 open new terminal
 
 cd robot-frontend
+
 npm install
+
 npm run dev
 
+---
 
 # if error in cd frontend:
 # Fix (Recommended):
